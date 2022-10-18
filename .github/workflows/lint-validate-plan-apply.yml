@@ -5,7 +5,11 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    
+    environment: dev
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     defaults:
       run:
         shell: bash
@@ -16,5 +20,11 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+
+      - name: OpenID connect
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}}
 
 
