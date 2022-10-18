@@ -7,7 +7,7 @@ on: [push]
 jobs:
   tf-pipeline:
     environment: dev
-    uses: ./.github/workflows/reuseable_action.yml
+    uses: ./.github/workflows/reuseable-action.yml
     with:
     secrets:
       oidc_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
