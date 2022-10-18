@@ -3,6 +3,10 @@ name: Terraform Template
 on:
   workflow_call:
     inputs:
+      environment:
+        type: string
+        required: true
+        description: "Deployment environment. Valid options: dev or prod"
     secrets:
       service_account:
         required: true
