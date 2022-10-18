@@ -1,6 +1,5 @@
 name: Terraform Dev
 run-name: ${{ github.actor }} is deploying to dev 🚀
-environment: dev
 
 on: [push]
 
