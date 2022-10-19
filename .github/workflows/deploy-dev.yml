@@ -10,7 +10,7 @@ jobs:
       environment: dev
     secrets:
       oidc_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-      service_account: ${{ secrets.GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}}
+      service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT}}
 
 
 
