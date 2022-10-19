@@ -39,6 +39,9 @@ jobs:
       - name: 'Setup gcloud SDK'
         uses: google-github-actions/setup-gcloud@v0
 
+      - name: 'ADC'
+        run: gcloud auth application-default login
+
       - name: Terraform Format
         id: fmt
         run: terraform fmt -recursive -check
