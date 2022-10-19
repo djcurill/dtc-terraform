@@ -35,3 +35,7 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.oidc_provider }}
           service_account: ${{ secrets.service_account}}
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -recursive -check
