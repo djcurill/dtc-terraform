@@ -31,16 +31,18 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: OpenID connect
+        id: auth
         uses: google-github-actions/auth@v0
         with:
+          create_credentials_file: 'true'
           workload_identity_provider: ${{ secrets.oidc_provider }}
           service_account: ${{ secrets.service_account}}
 
       - name: 'Setup gcloud SDK'
         uses: google-github-actions/setup-gcloud@v0
 
-      - name: 'ADC'
-        run: gcloud auth application-default login --quiet
+      - name: 'login'
+        run: gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
 
       - name: Terraform Format
         id: fmt
