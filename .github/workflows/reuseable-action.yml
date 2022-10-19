@@ -41,8 +41,8 @@ jobs:
       - name: 'Setup gcloud SDK'
         uses: google-github-actions/setup-gcloud@v0
 
-      - name: 'login'
-        run: gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+      # - name: 'login'
+      #   run: gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
 
       - name: Terraform Format
         id: fmt
