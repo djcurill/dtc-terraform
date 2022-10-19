@@ -35,8 +35,9 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.oidc_provider }}
           service_account: ${{ secrets.service_account}}
-          
-      - uses: google-github-actions/setup-gcloud
+
+      - name: 'Setup gcloud SDK'
+        uses: google-github-actions/setup-gcloud@v0
 
       - name: Terraform Format
         id: fmt
