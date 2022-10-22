@@ -24,8 +24,8 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-      contents: 'read'
-      id-token: 'write'
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout
@@ -37,7 +37,7 @@ jobs:
         with:
           token_format: 'access_token'
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: $${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
