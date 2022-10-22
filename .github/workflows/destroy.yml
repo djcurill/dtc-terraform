@@ -11,7 +11,7 @@ on:
 jobs:
   destroy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environ }}
+    environment: '${{ github.event.inputs.environ }}'
     permissions:
       contents: read
       id-token: write
@@ -33,11 +33,11 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd ${{ github.events.input.environ }}
+          cd '${{ github.event.inputs.environ }}'
           terraform init
 
       - name: Destroying ${{ github.events.input.environ }} environment
         run: |
-          cd ${{ github.events.input.environ }}
+          cd '${{ github.event.inputs.environ }}'
           terraform destroy -auto-approve
 
