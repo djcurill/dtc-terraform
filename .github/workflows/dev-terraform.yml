@@ -31,7 +31,7 @@ jobs:
         with:
           token_format: 'access_token'
           workload_identity_provider: 'projects/737737952874/locations/global/workloadIdentityPools/github-pool/providers/github-actions'
-          service_account: 'dev-terraform@dtc-dataops-dev.iam.gserviceaccount.com'
+          service_account: 'storage-admin@dtc-dataops-dev.iam.gserviceaccount.com'
 
       - name: 'Setup gcloud SDK'
         uses: google-github-actions/setup-gcloud@v0
