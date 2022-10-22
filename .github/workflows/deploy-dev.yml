@@ -1,7 +1,13 @@
 name: Terraform Dev
 run-name: ${{ github.actor }} is deploying to dev 🚀
 
-on: [push]
+on:
+  push:
+  # pull_request:
+  #   types:
+  #     - labeled
+  #   branches:
+  #     - main
 
 jobs:
   tf-pipeline:

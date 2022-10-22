@@ -53,3 +53,14 @@ jobs:
         run: |
           cd ${{ inputs.environment }}
           terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          cd ${{ inputs.environment }}
+          terraform plan -no-color -var-file=terraform.tfvars
+
