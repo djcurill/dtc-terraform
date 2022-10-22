@@ -47,3 +47,10 @@ add-identity-policy:
   		--project=${PROJECT_ID} \
 		--role="roles/iam.workloadIdentityUser" \
 		--member="principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}"
+
+get-provider:
+	@gcloud iam workload-identity-pools providers describe ${PROVIDER_NAME} \
+		--project="${PROJECT_ID}" \
+		--location="global" \
+		--workload-identity-pool=${POOL_NAME} \
+		--format="value(name)"
