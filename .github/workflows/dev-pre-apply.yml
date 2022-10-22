@@ -1,10 +1,10 @@
 name: Terraform Dev
-run-name: ${{ github.actor }} is deploying to dev 🚀
+run-name: ${{ github.actor }} is terraforming dev 🚀
 
 on:
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   terraform:
@@ -89,6 +89,13 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
+      - name: Terraform Apply
+        id: apply
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        run: |
+          cd dev
+          terraform apply -auto-approve -input=false -var-file=terraform.tfvars
 
 
 
