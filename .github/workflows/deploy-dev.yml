@@ -3,11 +3,11 @@ run-name: ${{ github.actor }} is deploying to dev 🚀
 
 on:
   push:
-  # pull_request:
-  #   types:
-  #     - labeled
-  #   branches:
-  #     - main
+  pull_request:
+    types:
+      - labeled
+    branches:
+      - main
 
 jobs:
   tf-pipeline:
@@ -17,6 +17,13 @@ jobs:
     secrets:
       oidc_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
       service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT}}
+
+    - name: Terraform Apply
+    id: apply
+    if: ${{ github.event.label.name == 'apply-dev' }}
+    run:
+      cd ${{ inputs.environment }}
+      terraform terraform apply -auto-approve -input=false
 
 
 

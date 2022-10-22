@@ -60,6 +60,7 @@ jobs:
         run: |
           cd ${{ inputs.environment }}
           terraform plan -no-color -var-file=terraform.tfvars
+        continue-on-error: true
       
       - name: Update Pull Request
         uses: actions/github-script@v6
