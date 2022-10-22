@@ -1,7 +1,6 @@
 name: Terraform Dev
 run-name: ${{ github.actor }} is terraforming dev environment 🚀
 
-
 defaults:
   run:
     shell: bash

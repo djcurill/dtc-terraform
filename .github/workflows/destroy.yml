@@ -11,7 +11,7 @@ on:
 jobs:
   destroy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environ }}
+    environment: '${{ github.event.inputs.environ }}'
     permissions:
       contents: read
       id-token: write
@@ -19,5 +19,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Test print
-        run: echo ${{ github.event.inputs.environ }}
+      - name: OpenID connect
+        id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: |
+          cd '${{ github.event.inputs.environ }}'
+          terraform init
+
+      - name: Destroying ${{ github.events.input.environ }} environment
+        run: |
+          cd '${{ github.event.inputs.environ }}'
+          terraform destroy -auto-approve
