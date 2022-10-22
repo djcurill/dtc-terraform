@@ -29,7 +29,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v0
         with:
-          token_format: 'access_token'
+          token_format: "id_token"
           workload_identity_provider: 'projects/523776208646/locations/global/workloadIdentityPools/github-pool/providers/github-actions'
           service_account: 'dev-terraform@dtc-dataops-dev-366316.iam.gserviceaccount.com'
 
