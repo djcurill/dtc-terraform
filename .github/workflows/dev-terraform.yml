@@ -29,9 +29,8 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v0
         with:
-          token_format: 'access_token'
-          workload_identity_provider: 'projects/737737952874/locations/global/workloadIdentityPools/github-pool/providers/github-actions'
-          service_account: 'storage-admin@dtc-dataops-dev.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: 'Setup gcloud SDK'
         uses: google-github-actions/setup-gcloud@v0
