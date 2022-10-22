@@ -2,9 +2,10 @@ name: Terraform Dev
 run-name: ${{ github.actor }} is terraforming dev 🚀
 
 on:
+  push:
+    branches: dev
   pull_request:
-    branches:
-      - dev
+    branches: dev
 
 jobs:
   terraform:

@@ -2,10 +2,11 @@ name: Terraform Prod
 run-name: ${{ github.actor }} is terraforming prod 🚀
 
 on:
+  push:
+    branches: main
   pull_request:
-    branches:
-      - main
-
+    branches: main
+    
 jobs:
   terraform:
     name: 'Terraform'
