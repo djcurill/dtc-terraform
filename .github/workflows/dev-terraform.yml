@@ -94,6 +94,8 @@ jobs:
       - name: Terraform Apply
         id: apply
         # if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS='${{ steps.auth.outputs.credentials_file_path }}'
         run: |
           cd dev
           terraform apply -auto-approve -input=false -var-file=terraform.tfvars
