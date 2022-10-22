@@ -96,9 +96,8 @@ jobs:
         # if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         # env:
         #   GOOGLE_APPLICATION_CREDENTIALS='${{ steps.auth.outputs.credentials_file_path }}'
-        env:
-          GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=dev-terraform@dtc-dataops-dev-366316.iam.gserviceaccount.com
         run: |
+          export GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=dev-terraform@dtc-dataops-dev-366316.iam.gserviceaccount.com
           cd dev
           terraform apply -auto-approve -input=false tfplan
 
