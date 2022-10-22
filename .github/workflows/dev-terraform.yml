@@ -1,9 +1,18 @@
 name: Terraform Dev
 run-name: ${{ github.actor }} is terraforming dev 🚀
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./dev
+
 on:
   push:
     branches: dev
+    paths:
+      - 'dev/**'
+      - '!iac/README.md'
+      - '.github/workflows/dev-terraform.yml'
   pull_request:
     branches: dev
 
@@ -17,8 +26,6 @@ jobs:
       pull-requests: write
       contents: 'read'
       id-token: 'write'
-    outputs:
-      gcp-cred-path: ${{steps.auth.outputs.credentials_file_path}}
 
     steps:
       - name: Checkout
@@ -29,14 +36,11 @@ jobs:
         uses: google-github-actions/auth@v0
         with:
           token_format: 'access_token'
-          workload_identity_provider: 'projects/523776208646/locations/global/workloadIdentityPools/github-pool/providers/github-actions'
-          service_account: 'dev-terraform@dtc-dataops-dev-366316.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: $${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-
-      # - name: 'Setup gcloud SDK'
-      #   uses: google-github-actions/setup-gcloud@v0
 
       - name: Terraform Format
         id: fmt
@@ -44,9 +48,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: |
-          cd ./dev
-          terraform init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
@@ -54,41 +56,38 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: |
-          cd ./dev
-          terraform plan
+        run: terraform plan
         continue-on-error: true
       
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
 
-      # - name: Update Pull Request
-      #   uses: actions/github-script@v6
-      #   if: github.event_name == 'pull_request'
-      #   env:
-      #     PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            <details><summary>Show Plan</summary>
 
-      #       <details><summary>Show Plan</summary>
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
 
-      #       \`\`\`\n
-      #       ${process.env.PLAN}
-      #       \`\`\`
+            </details>
 
-      #       </details>
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-      #       *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: output
-      #       })
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -96,12 +95,8 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        # if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
-        # env:
-        #   GOOGLE_APPLICATION_CREDENTIALS='${{ steps.auth.outputs.credentials_file_path }}'
-        run: |
-          cd dev
-          terraform apply -auto-approve
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        run: terraform apply -auto-approve
 
 
 
