@@ -19,7 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-
       - name: OpenID connect
         id: auth
         uses: google-github-actions/auth@v0
@@ -40,4 +39,3 @@ jobs:
         run: |
           cd '${{ github.event.inputs.environ }}'
           terraform destroy -auto-approve
-
