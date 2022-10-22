@@ -1,0 +1,23 @@
+name: Destroy Infrastructure
+run-name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environ:
+        description: 'Choose: "dev" or "prod"'
+        required: true
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environ }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test print
+        run: echo ${{ github.event.inputs.environ }}
