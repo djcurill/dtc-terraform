@@ -1,6 +1,6 @@
 ENV=dev
-BUCKET_NAME=dtc-${ENV}-terraform-state
-PROJECT_ID=$$(gcloud config list --format 'value(core.project)')
+BUCKET_NAME=${ENV}-dtc-terraform-state
+PROJECT_ID:=$$(gcloud config get-value project)
 
 configure-backend:
 	gsutil mb -p ${PROJECT_ID} gs://${BUCKET_NAME}; \
