@@ -18,12 +18,13 @@ jobs:
       oidc_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
       service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT}}
 
-    - name: Terraform Apply
-    id: apply
-    if: ${{ github.event.label.name == 'apply-dev' }}
-    run:
-      cd ${{ inputs.environment }}
-      terraform terraform apply -auto-approve -input=false
+    steps:
+      - name: Terraform Apply
+        id: apply
+        if: ${{ github.event.label.name == 'apply-dev' }}
+        run:
+          cd ${{ inputs.environment }}
+          terraform terraform apply -auto-approve -input=false
 
 
 
