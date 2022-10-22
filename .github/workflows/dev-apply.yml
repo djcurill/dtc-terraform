@@ -1,0 +1,46 @@
+name: Terraform Dev
+run-name: ${{ github.actor }} is running `terraform apply` on `dev` 🚀
+
+on:
+  pull_request:
+    types:
+      [ labeled ]
+    branches:
+      - main
+
+jobs:
+  terraform:
+    if: ${{ github.event.label.name == 'apply-dev' }}
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: OpenID connect
+        id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT}}
+
+      - name: 'Setup gcloud SDK'
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: Terraform Apply
+        id: apply
+        run: |
+          cd dev
+          terraform apply -var-file=terraform.tfvars
+
