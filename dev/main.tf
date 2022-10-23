@@ -1,6 +1,6 @@
 module "lifecycle_bucket" {
-  source = "../modules/lifecycle_bucket"
+  source      = "../modules/lifecycle_bucket"
   bucket_name = "dtc-nyc-taxi-${var.env}-${var.project_id}"
-  region = var.region
-  max_age = 30 // days
+  region      = var.region
+  max_age     = 30 // days
 }
