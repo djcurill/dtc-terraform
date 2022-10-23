@@ -7,7 +7,7 @@ module "nyc_taxi_data_lake" {
 
 resource "google_service_account" "airflow" {
   account_id   = "airflow-${var.env}"
-  display_name = "Airflow"
+  display_name = "airflow"
 }
 
 resource "google_storage_bucket_iam_member" "airflow" {
