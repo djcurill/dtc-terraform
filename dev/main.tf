@@ -1,4 +1,6 @@
-resource "google_storage_bucket" "data-lake-bucket" {
-  name     = "dtc-${var.env}-test123-demo-bucket"
-  location = var.region
+module "lifecycle_bucket" {
+  source = "../modules/lifecycle_bucket"
+  bucket_name = "dtc-nyc-taxi-${var.env}-${var.project_id}"
+  region = var.region
+  max_age = 30 // days
 }
