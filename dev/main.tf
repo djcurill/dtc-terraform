@@ -10,10 +10,27 @@ resource "google_service_account" "airflow" {
   display_name = "airflow"
 }
 
-resource "google_storage_bucket_iam_member" "airflow" {
-  bucket = module.nyc_taxi_data_lake.bucket_name
-  role   = "roles/storage.objectAdmin"
-  member = "serviceAccount:${google_service_account.airflow.email}"
+# resource "google_storage_bucket_iam_member" "airflow" {
+#   bucket = module.nyc_taxi_data_lake.bucket_name
+#   role   = "roles/storage.objectAdmin"
+#   member = "serviceAccount:${google_service_account.airflow.email}"
+# }
+
+resource "google_bigquery_dataset" "big_query" {
+  dataset_id    = var.BQ_DATASET
+  friendly_name = "BigQuery: NYC Taxi Data"
+  project       = var.project_id
+  location      = var.region
+}
+
+resource "google_project_iam_member" "airflow" {
+  for_each = toset([
+    "roles/storage.objectAdmin",
+    "roles/bigquery.dataEditor"
+  ])
+  role    = each.key
+  member  = "serviceAccount:${google_service_account.airflow.email}"
+  project = var.project_id
 }
 
 
