@@ -5,6 +5,13 @@ module "nyc_taxi_data_lake" {
   max_age     = 30 // days
 }
 
+module "dtc_network" {
+  source     = "../modules/network"
+  project_id = var.project_id
+  env        = var.env
+  region     = var.region
+}
+
 resource "google_service_account" "airflow" {
   account_id   = "airflow-${var.env}"
   display_name = "airflow"
