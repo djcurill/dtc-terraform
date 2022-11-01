@@ -12,6 +12,11 @@ module "dtc_network" {
   region     = var.region
 }
 
+resource "google_project_service" "enable_compute_api" {
+  project = var.project_id
+  service = "compute.googleapis.com"
+}
+
 resource "google_service_account" "airflow" {
   account_id   = "airflow-${var.env}"
   display_name = "airflow"
