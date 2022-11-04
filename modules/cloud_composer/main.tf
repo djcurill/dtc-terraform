@@ -1,3 +1,7 @@
+data "google_project" "project" {
+  project_id = var.project_id
+}
+
 resource "google_project_service" "composer_api" {
   project            = var.project_id
   service            = "composer.googleapis.com"
@@ -22,16 +26,16 @@ resource "google_project_iam_member" "cloud_composer_iam" {
 }
 
 resource "google_service_account_iam_member" "cloud_composer_iam_binding" {
-  service_account_id = google_project_iam_member.cloud_composer_iam.name
+  service_account_id = google_service_account.cloud_composer_service_account.name
   role               = "roles/composer.ServiceAgentV2Ext"
-  member             = "serviceAccount:service-${var.project_number}@cloudcomposer-accounts.iam.gserviceaccount.com"
+  member             = "serviceAccount:service-${data.google_project.project.number}@cloudcomposer-accounts.iam.gserviceaccount.com"
 }
 
 resource "google_compute_subnetwork" "cloud_composer_subnet" {
   name          = "cloud-composer-subnet-${var.env}"
   ip_cidr_range = "10.2.0.0/16"
   region        = var.region
-  network       = google_compute_network.vpc.id
+  network       = var.vpc.id
 }
 
 resource "google_composer_environment" "cloud_composer" {
