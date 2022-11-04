@@ -57,7 +57,6 @@ resource "google_composer_environment" "cloud_composer" {
       subnetwork      = google_compute_subnetwork.cloud_composer_subnet.id
       service_account = google_service_account.cloud_composer_service_account.name
     }
-
   }
 }
 
