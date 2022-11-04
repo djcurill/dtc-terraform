@@ -5,11 +5,18 @@ module "nyc_taxi_data_lake" {
   max_age     = 30 // days
 }
 
-module "dtc_network" {
-  source     = "../modules/network"
-  project_id = var.project_id
-  env        = var.env
-  region     = var.region
+module "cloud_composer" {
+  source         = "../modules/cloud_composer"
+  project_id     = var.project_id
+  project_number = var.project_number
+  region         = var.region
+  env            = var.env
+  vpc            = google_compute_network.vpc
+}
+
+resource "google_compute_network" "vpc" {
+  name                    = "cloud-composer-network-${var.env}"
+  auto_create_subnetworks = false
 }
 
 resource "google_project_service" "enable_compute_api" {
