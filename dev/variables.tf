@@ -18,3 +18,7 @@ variable "region" {
   type    = string
   default = "us-west1"
 }
+
+variable "cloud_composer_bucket" {
+  type = string
+}
