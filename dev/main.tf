@@ -34,6 +34,15 @@ resource "google_service_account" "airflow_cicd" {
   display_name = "CI / CD Service Account for Airflow Deployments"
 }
 
+resource "google_service_account_iam_binding" "airflow_cicd" {
+  service_account_id = google_service_account.airflow_cicd.name
+  role               = "roles/iam.workloadIdentityUser"
+  members = [
+    "principalSet://iam.googleapis.com/projects/523776208646/locations/global/workloadIdentityPools/github-pool/attribute.repository/djcurill/dtc-airflow",
+    "principalSet://iam.googleapis.com/projects/523776208646/locations/global/workloadIdentityPools/github-pool/*"
+  ]
+}
+
 data "google_storage_bucket" "cloud_composer_bucket" {
   name = var.cloud_composer_bucket
 }
