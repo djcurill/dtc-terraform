@@ -29,6 +29,21 @@ resource "google_service_account" "airflow" {
   display_name = "airflow"
 }
 
+resource "google_service_account" "airflow_cicd" {
+  account_id   = "airflow-cicd-${var.env}"
+  display_name = "CI / CD Service Account for Airflow Deployments"
+}
+
+data "google_storage_bucket" "cloud_composer_bucket" {
+  name = var.gcp_cloud_composer_bucket
+}
+
+resource "google_storage_bucket_iam_member" "airflow_cicd" {
+  bucket = google_storage_bucket.cloud_composer_bucket.name
+  role   = "roles/storage.admin"
+  member = "serviceAccount:${google_service_account.airflow_cicd.email}"
+}
+
 resource "google_bigquery_dataset" "big_query" {
   dataset_id    = var.BQ_DATASET
   friendly_name = "BigQuery: NYC Taxi Data"
