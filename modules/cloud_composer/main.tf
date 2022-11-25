@@ -63,6 +63,16 @@ resource "google_composer_environment" "cloud_composer" {
       subnetwork      = google_compute_subnetwork.cloud_composer_subnet.id
       service_account = google_service_account.cloud_composer_service_account.name
     }
+
+    workloads_config {
+      worker {
+        cpu = 0.5
+        memory_gb  = 1.875
+        storage_gb = 1
+        min_count  = 1
+        max_count  = 3
+      }
+    }
   }
 }
 
