@@ -27,7 +27,7 @@ variable "vpc" {
 
 variable "gcp_bucket" {
   description = "name of gcp bucket for data storage"
-  type = string
+  type        = string
 }
 
 

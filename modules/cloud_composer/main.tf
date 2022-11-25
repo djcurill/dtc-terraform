@@ -55,8 +55,8 @@ resource "google_composer_environment" "cloud_composer" {
         pyarrow = "==9.0.0"
       }
       env_variables = {
-        GCS_PROJECT_ID = var.project_id
-        GCP_GCS_BUCKET = var.gcp_bucket
+        GCS_PROJECT_ID      = var.project_id
+        GCP_GCS_BUCKET      = var.gcp_bucket
         AIRFLOW_STAGING_DIR = "/home/airflow/gcs/data/yellow_trip_data"
       }
     }
