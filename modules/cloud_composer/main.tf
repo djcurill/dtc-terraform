@@ -52,6 +52,10 @@ resource "google_composer_environment" "cloud_composer" {
       }
     }
 
+    pypi_packages = {
+      pyarrow = "==9.0.0"
+    }
+
     node_config {
       network         = var.vpc.id
       subnetwork      = google_compute_subnetwork.cloud_composer_subnet.id
