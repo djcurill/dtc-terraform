@@ -12,6 +12,7 @@ module "cloud_composer" {
   region         = var.region
   env            = var.env
   vpc            = google_compute_network.vpc
+  gcp_bucket = var.cloud_composer_bucket
 }
 
 resource "google_compute_network" "vpc" {

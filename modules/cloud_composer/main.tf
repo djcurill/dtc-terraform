@@ -18,7 +18,8 @@ resource "google_project_iam_member" "cloud_composer_iam" {
     "roles/storage.objectAdmin",
     "roles/bigquery.dataEditor",
     "roles/iam.serviceAccountUser",
-    "roles/composer.worker"
+    "roles/composer.worker",
+    "roles/composer.admin"
   ])
   role    = each.key
   member  = "serviceAccount:${google_service_account.cloud_composer_service_account.email}"
@@ -52,6 +53,11 @@ resource "google_composer_environment" "cloud_composer" {
       }
       pypi_packages = {
         pyarrow = "==9.0.0"
+      }
+      env_variables = {
+        GCS_PROJECT_ID = var.project_id
+        GCP_GCS_BUCKET = var.gcp_bucket
+        AIRFLOW_STAGING_DIR = "/home/airflow/gcs/data/yellow_trip_data"
       }
     }
 
