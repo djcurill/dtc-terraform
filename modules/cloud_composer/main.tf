@@ -65,6 +65,17 @@ resource "google_composer_environment" "cloud_composer" {
     }
 
     workloads_config {
+      scheduler {
+        cpu        = 0.5
+        memory_gb  = 1.875
+        storage_gb = 1
+        count      = 1
+      }
+      web_server {
+        cpu        = 0.5
+        memory_gb  = 1.875
+        storage_gb = 1
+      }
       worker {
         cpu = 0.5
         memory_gb  = 1.875
