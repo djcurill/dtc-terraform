@@ -50,6 +50,9 @@ resource "google_composer_environment" "cloud_composer" {
       airflow_config_overrides = {
         core-dags_are_paused_at_creation = "True"
       }
+      pypi_packages = {
+        pyarrow = "==9.0.0"
+      }
     }
 
     node_config {
