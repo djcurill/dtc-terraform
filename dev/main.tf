@@ -44,9 +44,6 @@ resource "google_service_account_iam_binding" "airflow_cicd" {
   ]
 }
 
-# data "google_storage_bucket" "cloud_composer_bucket" {
-#   name = var.cloud_composer_bucket
-# }
 
 resource "google_storage_bucket_iam_member" "airflow_cicd" {
   bucket = module.cloud_composer.composer_bucket
