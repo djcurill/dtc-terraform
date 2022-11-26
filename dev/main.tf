@@ -12,7 +12,7 @@ module "cloud_composer" {
   region         = var.region
   env            = var.env
   vpc            = google_compute_network.vpc
-  gcp_bucket     = var.cloud_composer_bucket
+  gcp_bucket     = module.nyc_taxi_data_lake.bucket_name
 }
 
 resource "google_compute_network" "vpc" {
