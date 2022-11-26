@@ -44,12 +44,12 @@ resource "google_service_account_iam_binding" "airflow_cicd" {
   ]
 }
 
-data "google_storage_bucket" "cloud_composer_bucket" {
-  name = var.cloud_composer_bucket
-}
+# data "google_storage_bucket" "cloud_composer_bucket" {
+#   name = var.cloud_composer_bucket
+# }
 
 resource "google_storage_bucket_iam_member" "airflow_cicd" {
-  bucket = data.google_storage_bucket.cloud_composer_bucket.name
+  bucket = module.cloud_composer.composer_bucket
   role   = "roles/storage.admin"
   member = "serviceAccount:${google_service_account.airflow_cicd.email}"
 }
