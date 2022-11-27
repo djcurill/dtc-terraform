@@ -77,7 +77,7 @@ resource "google_composer_environment" "cloud_composer" {
         storage_gb = 1
       }
       worker {
-        cpu = 1
+        cpu        = 1
         memory_gb  = 2
         storage_gb = 2
         min_count  = 1
