@@ -15,6 +15,10 @@ module "cloud_composer" {
   gcp_bucket     = module.nyc_taxi_data_lake.bucket_name
 }
 
+locals {
+  composer_bucket_name = module.cloud_composer.composer_bucket
+}
+
 resource "google_compute_network" "vpc" {
   name                    = "cloud-composer-network-${var.env}"
   auto_create_subnetworks = false
@@ -46,7 +50,7 @@ resource "google_service_account_iam_binding" "airflow_cicd" {
 
 
 resource "google_storage_bucket_iam_member" "airflow_cicd" {
-  bucket = module.cloud_composer.composer_bucket
+  bucket = local.composer_bucket_name
   role   = "roles/storage.admin"
   member = "serviceAccount:${google_service_account.airflow_cicd.email}"
 }

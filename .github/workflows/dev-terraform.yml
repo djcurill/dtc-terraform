@@ -57,7 +57,7 @@ jobs:
         id: validate
         run: | 
           terraform validate -no-color
-          terraform force-unlock -force 1669505023656622
+          
 
       - name: Terraform Plan
         id: plan
