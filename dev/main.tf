@@ -50,7 +50,7 @@ resource "google_service_account_iam_binding" "airflow_cicd" {
 
 
 resource "google_storage_bucket_iam_member" "airflow_cicd" {
-  bucket = local.composer_bucket
+  bucket = var.cloud_composer_bucket
   role   = "roles/storage.admin"
   member = "serviceAccount:${google_service_account.airflow_cicd.email}"
 }
